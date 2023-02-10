@@ -8,9 +8,10 @@ import {
   ManyToOne,
   OneToMany,
 } from "typeorm";
+//
 import BaseEntity from "./Entity";
+import User from "./User";
 import Post from "./Post";
-import { User } from "./User";
 
 @Entity("subs")
 export default class Sub extends BaseEntity {

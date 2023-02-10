@@ -8,11 +8,13 @@ import {
   ManyToOne,
   OneToMany,
 } from "typeorm";
-import { makeId } from "../utils/helpers";
+//
 import BaseEntity from "./Entity";
+import User from "./User";
 import Post from "./Post";
-import { User } from "./User";
 import Vote from "./Vote";
+//
+import { makeId } from "../utils/helpers";
 
 @Entity("comments")
 export default class Comment extends BaseEntity {
@@ -26,12 +28,12 @@ export default class Comment extends BaseEntity {
   @Column()
   username: string;
 
+  @Column()
+  postId: number;
+
   @ManyToOne(() => User)
   @JoinColumn({ name: "username", referencedColumnName: "username" })
   user: User;
-
-  @Column()
-  postId: number;
 
   @ManyToOne(() => Post, (post) => post.comments, { nullable: false })
   post: Post;
