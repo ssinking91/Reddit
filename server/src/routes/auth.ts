@@ -1,9 +1,12 @@
 import { isEmpty, validate } from "class-validator";
 import { Request, Response, Router } from "express";
-import User from "../entities/User";
+//
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import cookie from "cookie";
+//
+import User from "../entities/User";
+//
 import userMiddleware from "../middlewares/user";
 import authMiddleware from "../middlewares/auth";
 
@@ -49,6 +52,7 @@ const register = async (req: Request, res: Response) => {
 
     // 유저 정보를 user table에 저장.
     await user.save();
+
     return res.json(user);
   } catch (error) {
     console.error(error);

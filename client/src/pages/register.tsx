@@ -22,9 +22,9 @@ const Register = () => {
   } = useForm<FormInputs>({
     mode: "onChange", //실시간 유효성 검사
     defaultValues: {
-      email: "",
-      username: "",
-      password: "",
+      email: "test1@naver.com",
+      username: "test",
+      password: "test11!!",
     },
   });
 

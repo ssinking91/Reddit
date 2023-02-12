@@ -28,24 +28,25 @@ app.use(
 );
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(cookieParser());
-dotenv.config();
+// app.use(cookieParser());
+// dotenv.config();
 
 // app.get의 url로 접속을 하면 해당 블록의 코드를 실행합니다.
 app.get("/", (_, res) => res.send("running"));
 app.use("/api/auth", authRoutes);
-app.use("/api/subs", subRoutes);
-app.use("/api/posts", postRoutes);
-app.use("/api/votes", voteRoutes);
-app.use("/api/users", userRoutes);
+// app.use("/api/subs", subRoutes);
+// app.use("/api/posts", postRoutes);
+// app.use("/api/votes", voteRoutes);
+// app.use("/api/users", userRoutes);
 
-app.use(express.static("public"));
+// app.use(express.static("public"));
 
 let port = 4000;
 
 // app.listen의 포트로 접속하면 해당 블록의 코드를 실행합니다.
 app.listen(port, async () => {
-  console.log(`server running at ${process.env.APP_URL}`);
+  // console.log(`server running at ${process.env.APP_URL}`);
+  console.log(`server running at http://localhost:${port}`);
 
   AppDataSource.initialize()
     .then(() => {
