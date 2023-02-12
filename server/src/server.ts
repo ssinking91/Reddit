@@ -29,7 +29,9 @@ app.use(
 app.use(express.json());
 app.use(morgan("dev"));
 // app.use(cookieParser());
-// dotenv.config();
+
+// .env 사용
+dotenv.config();
 
 // app.get의 url로 접속을 하면 해당 블록의 코드를 실행합니다.
 app.get("/", (_, res) => res.send("running"));

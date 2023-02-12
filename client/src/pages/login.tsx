@@ -5,18 +5,19 @@ import { useRouter } from "next/router";
 //
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { useAuthState } from "../context/auth";
+import { useAuthDispatch, useAuthState } from "../context/auth";
 //
 import InputGroup from "../components/InputGroup";
 
 interface FormInputs {
-  email: string;
   username: string;
   password: string;
 }
 
-const Register = () => {
+const Login = () => {
   let router = useRouter();
+
+  const dispatch = useAuthDispatch();
 
   const { authenticated } = useAuthState();
 
@@ -31,7 +32,6 @@ const Register = () => {
   } = useForm<FormInputs>({
     mode: "onChange", //실시간 유효성 검사
     defaultValues: {
-      email: "test1@naver.com",
       username: "test",
       password: "test11!!",
     },
@@ -39,48 +39,41 @@ const Register = () => {
 
   const [resErrors, setResErrors] = useState<any>({});
 
-  const watchFields = watch(["email", "username", "password"]);
+  const watchFields = watch(["username", "password"]);
 
   const onSubmit = async () =>
     // event: FormEvent
     //
     {
       // event.preventDefault();
-
       try {
-        const res = await axios.post("/auth/register", {
-          email: watchFields[0],
-          username: watchFields[1],
-          password: watchFields[2],
-        });
+        const res = await axios.post(
+          "/auth/login",
+          {
+            username: watchFields[0],
+            password: watchFields[1],
+            //
+          },
+          { withCredentials: true }
+        );
 
-        console.log("res", res);
+        console.log(res);
 
-        // router.replace는 스택 제일 위에 있는 원소를 새로운 url로 바꾸는 것
-        router.replace("/login");
+        dispatch("LOGIN", res.data?.user);
+
+        // router.push("/");
       } catch (error: any) {
-        console.log("error", error);
+        console.log(error);
         setResErrors(error.response?.data || {});
       }
     };
+
   return (
     <div className="bg-white">
       <div className="flex flex-col items-center justify-center h-screen p-6">
         <div className="w-10/12 mx-auto md:w-96">
-          <h1 className="mb-2 text-lg font-medium">회원가입</h1>
-          <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
-            <InputGroup
-              placeholder="Email"
-              error={resErrors.email || errors?.email?.message}
-              register={register("email", {
-                // required: true,
-                required: "email을 입력해 주세요.",
-                pattern: {
-                  value: /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/,
-                  message: "올바른 이메일 형식이 아닙니다.",
-                },
-              })}
-            />
+          <h1 className="mb-2 text-lg font-medium">로그인</h1>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <InputGroup
               placeholder="Username"
               error={resErrors.username || errors?.username?.message}
@@ -122,13 +115,13 @@ const Register = () => {
               })}
             />
             <button className="w-full py-2 mb-1 text-xs font-bold text-white uppercase bg-gray-400 border border-gray-400 rounded">
-              Sign up
+              로그인
             </button>
           </form>
           <small>
-            이미 가입하셨나요?
-            <Link href="/login">
-              <span className="ml-1 text-blue-500 uppercase">로그인</span>
+            아직 아이디가 없나요?
+            <Link href="/register">
+              <span className="ml-1 text-blue-500 uppercase">회원가입</span>
             </Link>
           </small>
         </div>
@@ -137,4 +130,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
