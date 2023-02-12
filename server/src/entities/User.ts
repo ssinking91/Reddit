@@ -22,12 +22,12 @@ export default class User extends BaseEntity {
   email: string;
 
   @Index()
-  @Length(3, 32, { message: "사용자 이름은 3자 이상이어야 합니다." })
+  @Length(1, 20, { message: "사용자 이름은 1자 이상이어야 합니다." })
   @Column({ unique: true })
   username: string;
 
   @Column()
-  @Length(6, 255, { message: "비밀번호는 6자리 이상이어야 합니다." })
+  @Length(8, 20, { message: "비밀번호는 8자리 이상이어야 합니다." })
   password: string;
 
   @OneToMany(() => Post, (post) => post.user)
