@@ -37,9 +37,12 @@ const getSub = async (req: Request, res: Response) => {
 
 const createSub = async (req: Request, res: Response, next) => {
   const { name, title, description } = req.body;
+  console.log(name, title, description);
 
   try {
     let errors: any = {};
+
+    // 유저 정보가 있다면 Sub 이름과 제목이 이미 있는 것인지 체크
     if (isEmpty(name)) errors.name = "이름은 비워둘 수 없습니다.";
     if (isEmpty(title)) errors.title = "제목은 비워두 수 없습니다.";
 
@@ -60,6 +63,7 @@ const createSub = async (req: Request, res: Response, next) => {
   try {
     const user: User = res.locals.user;
 
+    // Sub Instance 생성 후 데이터베이스 저장
     const sub = new Sub();
     sub.name = name;
     sub.description = description;
@@ -67,6 +71,7 @@ const createSub = async (req: Request, res: Response, next) => {
     sub.user = user;
 
     await sub.save();
+    // 저장한 정보 프론트엔드로 전달해주기
     return res.json(sub);
   } catch (error) {
     console.log(error);

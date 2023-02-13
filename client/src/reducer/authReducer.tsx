@@ -1,4 +1,10 @@
-import { State, Action } from "../context/auth";
+import { authState, authAction } from "../context/auth";
+
+interface reducerMap {
+  LOGIN: (state: authState, action: authAction) => authState;
+  LOGOUT: (state: authState, action: authAction) => authState;
+  STOP_LOADING: (state: authState, action: authAction) => authState;
+}
 
 // initialState
 export const authInitialState = {
@@ -7,27 +13,24 @@ export const authInitialState = {
   loading: true,
 };
 
-// reducer
-export const authReducer = (state: State, { type, payload }: Action) => {
-  switch (type) {
-    case "LOGIN":
-      return {
-        ...state,
-        authenticated: true,
-        user: payload,
-      };
-    case "LOGOUT":
-      return {
-        ...state,
-        authenticated: false,
-        user: null,
-      };
-    case "STOP_LOADING":
-      return {
-        ...state,
-        loading: false,
-      };
-    default:
-      throw new Error(`Unknown action type: ${type}`);
-  }
+// reducerMap
+export const authReducerMap: reducerMap = {
+  LOGIN: (state, { payload }) => ({
+    ...state,
+    authenticated: true,
+    user: payload,
+  }),
+  LOGOUT: (state) => ({
+    ...state,
+    authenticated: false,
+    user: null,
+  }),
+  STOP_LOADING: (state) => ({
+    ...state,
+    loading: false,
+  }),
 };
+
+// reducer
+export const authReducer = (state: authState, action: authAction) =>
+  authReducerMap[action.type]?.(state, action) || state;
