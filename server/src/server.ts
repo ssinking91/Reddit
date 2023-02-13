@@ -16,7 +16,7 @@ import cookieParser from "cookie-parser";
 // * nodemon : 서버 코드를 변경 할 때마다 서버를 재시작하 일을 자동으로 대신 해줍니다.
 // * ts-node : Node.js 상에서 TypeScript Compiler를 통하지 않고도, 직접 TypeScript를 실행시키는 역할을 합니다.
 // * @types/express @types/node : Express 및 NodeJS에 대한 Type 정의에 도움이 됩니다.
-
+// * cookie-parser는 요청과 함께 들어온 쿠키를 해석하여 곧바로 req.cookies객체로 만든다
 const app = express();
 // const origin = process.env.ORIGIN;
 const origin = "http://localhost:3000";
@@ -28,7 +28,7 @@ app.use(
 );
 app.use(express.json());
 app.use(morgan("dev"));
-// app.use(cookieParser());
+app.use(cookieParser());
 
 // .env 사용
 dotenv.config();

@@ -61,9 +61,9 @@ const Login = () => {
 
         dispatch("LOGIN", res.data?.user);
 
-        // router.push("/");
+        router.push("/");
       } catch (error: any) {
-        console.log(error);
+        console.log("error", error);
         setResErrors(error.response?.data || {});
       }
     };
@@ -76,7 +76,7 @@ const Login = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <InputGroup
               placeholder="Username"
-              error={resErrors.username || errors?.username?.message}
+              error={resErrors.username || errors.username?.message}
               register={register("username", {
                 // required: true,
                 required: "username을 입력해 주세요.",
@@ -96,7 +96,7 @@ const Login = () => {
             />
             <InputGroup
               placeholder="Password"
-              error={resErrors.password || errors?.password?.message}
+              error={resErrors.password || errors.password?.message}
               register={register("password", {
                 // required: true,
                 required: "password를 입력해 주세요.",

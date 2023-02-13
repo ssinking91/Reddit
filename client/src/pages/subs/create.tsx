@@ -26,8 +26,8 @@ const SubCreate = () => {
     mode: "onChange", //실시간 유효성 검사
     defaultValues: {
       name: "test1",
-      title: "test2",
-      description: "",
+      title: "test1",
+      description: "test1",
     },
   });
 
@@ -49,13 +49,15 @@ const SubCreate = () => {
           //
         });
 
+        console.log("res", res);
+
         // router.push(`/r/${res.data.name}`);
       } catch (error: any) {
-        console.log(error);
-        setResErrors(error.response.data);
+        console.log("error", error);
+        setResErrors(error.response?.data || {});
       }
     };
-
+  console.log(resErrors);
   return (
     <div className="flex flex-col justify-center pt-16">
       <div className="w-10/12 p-4 mx-auto bg-white rounded md:w-96">
@@ -69,7 +71,7 @@ const SubCreate = () => {
             </p>
             <InputGroup
               placeholder="이름"
-              error={resErrors.name || errors?.name?.message}
+              error={resErrors.name || errors.name?.message}
               register={register("name", {
                 // required: true,
                 required: "name을 입력해 주세요.",
@@ -81,10 +83,6 @@ const SubCreate = () => {
                   message: "20글자 이하 입력하세요.",
                   value: 20,
                 },
-                pattern: {
-                  value: /^[가-힣a-zA-Z]+$/,
-                  message: "한글, 영문만 입력 가능합니다.",
-                },
               })}
             />
           </div>
@@ -95,7 +93,7 @@ const SubCreate = () => {
             </p>
             <InputGroup
               placeholder="제목"
-              error={resErrors.title || errors?.title?.message}
+              error={resErrors.title || errors.title?.message}
               register={register("title", {
                 // required: true,
                 required: "title을 입력해 주세요.",
@@ -117,7 +115,7 @@ const SubCreate = () => {
             </p>
             <InputGroup
               placeholder="설명"
-              error={resErrors.description || errors?.description?.message}
+              error={resErrors.description || errors.description?.message}
               register={register("description", {
                 // required: true,
                 required: "description을 입력해 주세요.",

@@ -63,6 +63,7 @@ const Register = () => {
         setResErrors(error.response?.data || {});
       }
     };
+  console.log(resErrors);
   return (
     <div className="bg-white">
       <div className="flex flex-col items-center justify-center h-screen p-6">
@@ -71,7 +72,7 @@ const Register = () => {
           <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
             <InputGroup
               placeholder="Email"
-              error={resErrors.email || errors?.email?.message}
+              error={resErrors.email || errors.email?.message}
               register={register("email", {
                 // required: true,
                 required: "email을 입력해 주세요.",
@@ -83,7 +84,7 @@ const Register = () => {
             />
             <InputGroup
               placeholder="Username"
-              error={resErrors.username || errors?.username?.message}
+              error={resErrors.username || errors.username?.message}
               register={register("username", {
                 // required: true,
                 required: "username을 입력해 주세요.",
@@ -103,7 +104,7 @@ const Register = () => {
             />
             <InputGroup
               placeholder="Password"
-              error={resErrors.password || errors?.password?.message}
+              error={resErrors.password || errors.password?.message}
               register={register("password", {
                 // required: true,
                 required: "password를 입력해 주세요.",
