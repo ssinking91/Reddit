@@ -1,6 +1,10 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useReducer } from "react";
-import { authReducer, authInitialState } from "../reducer/authReducer";
+import {
+  authReducer,
+  authInitialState,
+  authActionType,
+} from "../reducer/authReducer";
 import { User } from "../types";
 
 // type
@@ -9,8 +13,6 @@ export interface authState {
   user: User | undefined | null;
   loading: boolean;
 }
-
-export type authActionType = "LOGIN" | "LOGOUT" | "STOP_LOADING";
 
 export interface authAction {
   type: authActionType;
@@ -35,19 +37,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   console.log("state", state);
 
-  //   useEffect(() => {
-  //       async function loadUser() {
-  //           try {
-  //               const res = await axios.get("/auth/me");
-  //               dispatch("LOGIN", res.data);
-  //           } catch (error) {
-  //               console.log(error)
-  //           } finally {
-  //               dispatch("STOP_LOADING");
-  //           }
-  //       }
-  //       loadUser();
-  //   }, [])
+  // useEffect(() => {
+  //   async function loadUser() {
+  //     try {
+  //       const res = await axios.get("/auth/me");
+  //       dispatch("LOGIN", res.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     } finally {
+  //       dispatch("STOP_LOADING");
+  //     }
+  //   }
+  //   loadUser();
+  // }, []);
 
   return (
     <DispatchContext.Provider value={dispatch}>

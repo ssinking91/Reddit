@@ -1,9 +1,11 @@
 import { authState, authAction } from "../context/auth";
 
-interface reducerMap {
-  LOGIN: (state: authState, action: authAction) => authState;
-  LOGOUT: (state: authState, action: authAction) => authState;
-  STOP_LOADING: (state: authState, action: authAction) => authState;
+// Keyof operator
+export type authActionType = keyof typeof authReducerMap;
+
+// Index Signature
+export interface reducerMap {
+  [key: string]: (state: authState, action: authAction) => authState;
 }
 
 // initialState
