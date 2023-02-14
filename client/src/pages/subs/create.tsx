@@ -15,7 +15,7 @@ interface FormInputs {
 }
 
 const SubCreate = () => {
-  let router = useRouter();
+  const router = useRouter();
 
   const {
     register,
@@ -135,21 +135,33 @@ const SubCreate = () => {
 
 export default SubCreate;
 
-// export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-//   try {
-//     const cookie = req.headers.cookie;
-//     // 쿠키가 없다면 에러를 보내기
-//     if (!cookie) throw new Error("Missing auth token cookie");
+// 인증에 따른 제한
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  try {
+    const cookie = req.headers.cookie;
+    // 쿠키가 없다면 에러를 보내기
+    if (!cookie) throw new Error("Missing auth token cookie");
 
-//     // 쿠키가 있다면 그 쿠키를 이용해서 백엔드에서 인증 처리하기
-//     await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/auth/me`, {
-//       headers: { cookie },
-//     });
-//     return { props: {} };
-//   } catch (error) {
-//     // 백엔드에서 요청에서 던져준 쿠키를 이용해 인증 처리할 때 에러가 나면 /login 페이지로 이동
-//     res.writeHead(307, { Location: "/login" }).end();
+    // 쿠키가 있다면 그 쿠키를 이용해서 백엔드에서 인증 처리하기
+    await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/auth/me`, {
+      headers: { cookie },
+    });
+    return { props: {} };
+  } catch (error) {
+    // 백엔드에서 요청에서 던져준 쿠키를 이용해 인증 처리할 때 에러가 나면 /login 페이지로 이동
+    res.writeHead(307, { Location: "/login" }).end();
 
-//     return { props: {} };
-//   }
-// };
+    return { props: {} };
+  }
+};
+
+// * res.writeHead(상태코드, 헤더 정보)
+// - 응답 헤더에 대한 정보를 기록하는 메서드입니다. 상태 코드는 HTTP 상태코드를 말하는데 200, 404, 500 등 이다. 'text/html' 은 응답의 콘텐츠 형식이 HTML 이라는 의미이고, 'utf-8' 은 한글 표시를 하라는 의미이다.
+// - writeHead는 http응답 메시지 헤더를 작성한다는 뜻이고, 307는 브라우저한테 페이지를 이동시켜라고 명령하는 것
+// - Location: '/'는 어디로 이동할지를 적어주는 것
+
+// * res.write()
+// - 본문(body)에 보여지는 부분을 쓰는 메서드이다.
+
+// * res.end()
+// - 응답을 종료하는 메서드이다.

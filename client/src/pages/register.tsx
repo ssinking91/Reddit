@@ -16,10 +16,9 @@ interface FormInputs {
 }
 
 const Register = () => {
-  let router = useRouter();
+  const router = useRouter();
 
   const { authenticated } = useAuthState();
-
   // router.replace는 스택 제일 위에 있는 원소를 새로운 url로 바꾸는 것
   if (authenticated) router.replace("/");
 

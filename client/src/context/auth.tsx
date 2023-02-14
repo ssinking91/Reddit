@@ -37,19 +37,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   console.log("state", state);
 
-  // useEffect(() => {
-  //   async function loadUser() {
-  //     try {
-  //       const res = await axios.get("/auth/me");
-  //       dispatch("LOGIN", res.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     } finally {
-  //       dispatch("STOP_LOADING");
-  //     }
-  //   }
-  //   loadUser();
-  // }, []);
+  // 로그인 후에는 로그인 페이지나 회원 가입 페이지에 들어가도 다시 메인 페이지로 돌아오게 만들기
+  useEffect(() => {
+    async function loadUser() {
+      try {
+        const res = await axios.get("/auth/me");
+        dispatch("LOGIN", res.data);
+        //
+      } catch (error) {
+        console.log(error);
+        //
+      } finally {
+        dispatch("STOP_LOADING");
+      }
+    }
+
+    loadUser();
+  }, []);
 
   return (
     <DispatchContext.Provider value={dispatch}>

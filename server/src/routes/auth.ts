@@ -144,6 +144,7 @@ const logout = async (_: Request, res: Response) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
+      // expires : 바로 기간 만료 시키기
       expires: new Date(0),
       path: "/",
     })
