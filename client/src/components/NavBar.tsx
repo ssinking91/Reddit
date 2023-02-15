@@ -2,10 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 //
-import axios from "axios";
 // import { FaSearch } from "react-icons/fa";
 //
 import { useAuthDispatch, useAuthState } from "../context/auth";
+//
+import fetcher from "../controller/fetcher";
+import { METHOD } from "../types";
 
 const NavBar: React.FC = () => {
   const router = useRouter();
@@ -13,17 +15,18 @@ const NavBar: React.FC = () => {
   const dispatch = useAuthDispatch();
   const { loading, authenticated } = useAuthState();
 
-  const handleLogout = () => {
-    axios
-      .post("/auth/logout")
-      .then(() => {
+  const handleLogout = async () => {
+    try {
+      const { success } = await fetcher(METHOD.POST, "/auth/logout");
+
+      if (success) {
         dispatch("LOGOUT");
         // window.location.reload();
         router.reload();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

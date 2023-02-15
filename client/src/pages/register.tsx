@@ -3,12 +3,13 @@ import React, { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 //
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useAuthState } from "../context/auth";
 //
 import InputGroup from "../components/InputGroup";
-
+//
+import fetcher from "../controller/fetcher";
+import { METHOD } from "../types";
 interface FormInputs {
   email: string;
   username: string;
@@ -47,7 +48,7 @@ const Register = () => {
       // event.preventDefault();
 
       try {
-        const res = await axios.post("/auth/register", {
+        const res = await fetcher(METHOD.POST, "/auth/register", {
           email: watchFields[0],
           username: watchFields[1],
           password: watchFields[2],
