@@ -26,7 +26,7 @@ export default function Seo() {
 
   return (
     <Head>
-      <title>Reddit | {path(router.pathname)}</title>
+      <title>{`Reddit | ${path(router.pathname)}`}</title>
       <meta name="description" content="Reddit" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="icon" href="/reddit-logo.png" />

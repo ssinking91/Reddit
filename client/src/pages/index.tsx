@@ -19,7 +19,7 @@ const Home: NextPage = () => {
   const { authenticated } = useAuthState();
 
   // const address = `/subs/sub/topSubs`;
-  const address = `http://localhost:4000/api/subs/sub/topSubs`;
+  const address = `/subs/sub/topSubs`;
 
   const { data: topSubs } = useSWR<Sub[]>(address, (url) =>
     fetcher(METHOD.GET, url)

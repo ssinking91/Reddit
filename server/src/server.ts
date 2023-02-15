@@ -41,7 +41,8 @@ app.use("/api/subs", subRoutes);
 // app.use("/api/votes", voteRoutes);
 // app.use("/api/users", userRoutes);
 
-// app.use(express.static("public"));
+// static 파일을 public 파일 안에 있고 브라우저로 접근할 때 제공을 할 수 있게 해줍니다.
+app.use(express.static("public"));
 
 let port = 4000;
 

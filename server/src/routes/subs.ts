@@ -106,6 +106,7 @@ const ownSub = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const sub = await Sub.findOneOrFail({ where: { name: req.params.name } });
 
+    // sub의 user와 현재 user가 같은지 확인
     if (sub.username !== user.username) {
       return res
         .status(403)
@@ -125,6 +126,7 @@ const upload = multer({
     destination: "public/images",
     filename: (_, file, callback) => {
       const name = makeId(10);
+      // imagename = .png
       callback(null, name + path.extname(file.originalname));
     },
   }),
@@ -141,6 +143,7 @@ const uploadSubImage = async (req: Request, res: Response) => {
   const sub: Sub = res.locals.sub;
   try {
     const type = req.body.type;
+
     // 파일 유형을 지정치 않았을 시에는 업로든 된 파일 삭제
     if (type !== "image" && type !== "banner") {
       if (!req.file?.path) {
@@ -148,6 +151,8 @@ const uploadSubImage = async (req: Request, res: Response) => {
       }
 
       // 파일을 지워주기
+      // multer에 의해 캡슐화된 파일 객체에는 파일 경로가 있기 때문에
+      // dirname/pwd가 자동으로 추가됩니다.
       unlinkSync(req.file.path);
       return res.status(400).json({ error: "잘못된 유형" });
     }
@@ -167,6 +172,8 @@ const uploadSubImage = async (req: Request, res: Response) => {
 
     // 사용하지 않는 이미지 파일 삭제
     if (oldImageUrn !== "") {
+      // 데이터베이스는 파일 이름일 뿐이므로 개체 경로 접두사를 직접 추가해야 합니다.
+      // Linux 및 Windows와 호환
       const fullFilename = path.resolve(
         process.cwd(),
         "public",

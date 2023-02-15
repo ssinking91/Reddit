@@ -22,6 +22,7 @@ export default abstract class Entity extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  // entities의 @Expose()를 프론트 데이터에 추가
   toJSON() {
     return instanceToPlain(this);
   }
