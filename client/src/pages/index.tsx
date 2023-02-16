@@ -21,9 +21,7 @@ const Home: NextPage = () => {
   // const address = `/subs/sub/topSubs`;
   const address = `/subs/sub/topSubs`;
 
-  const { data: topSubs } = useSWR<Sub[]>(address, (url) =>
-    fetcher(METHOD.GET, url)
-  );
+  const { data: topSubs } = useSWR<Sub[]>(address);
   console.log(topSubs);
 
   // const getKey = (pageIndex: number, previousPageData: Post[]) => {

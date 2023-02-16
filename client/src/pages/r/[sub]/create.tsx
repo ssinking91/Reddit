@@ -51,7 +51,7 @@ const PostCreate = () => {
 
         console.log("post", post);
 
-        // router.push(`/r/${subName}/${post.identifier}/${post.slug}`);
+        router.push(`/r/${subName}/${post.identifier}/${post.slug}`);
       } catch (error) {
         console.log(error);
       }

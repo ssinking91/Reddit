@@ -15,12 +15,14 @@ const getUserData = async (req: Request, res: Response) => {
     // 유저가 쓴 포스트 정보 가져오기
     const posts = await Post.find({
       where: { username: user.username },
+      // relations : join => 연관된 데이터 가지고 오기
       relations: ["comments", "votes", "sub"],
     });
 
     // 유저가 쓴 댓글 정보 가져오기
     const comments = await Comment.find({
       where: { username: user.username },
+      // relations : join => 연관된 데이터 가지고 오기
       relations: ["post"],
     });
 

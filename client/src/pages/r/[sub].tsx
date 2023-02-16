@@ -33,9 +33,7 @@ const SubPage = () => {
     data: sub,
     error,
     mutate,
-  } = useSWR(subName ? `/subs/${subName}` : null, (url) =>
-    fetcher(METHOD.GET, url)
-  );
+  } = useSWR(subName ? `/subs/${subName}` : null);
 
   useEffect(() => {
     if (!sub || !user) return;

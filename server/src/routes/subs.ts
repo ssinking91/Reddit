@@ -19,12 +19,14 @@ const getSub = async (req: Request, res: Response) => {
     // 포스트를 생성한 후에 해당 sub에 속하는 포스트 정보들을 넣어주기
     const posts = await Post.find({
       where: { subName: sub.name },
-      // order: { createdAt: "DESC" },
+      order: { createdAt: "DESC" },
+      // relations : join => 연관된 데이터 가지고 오기
       relations: ["comments", "votes"],
     });
 
     sub.posts = posts;
 
+    // 투표
     if (res.locals.user) {
       sub.posts.forEach((p) => p.setUserVote(res.locals.user));
     }

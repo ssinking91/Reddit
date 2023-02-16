@@ -37,7 +37,7 @@ dotenv.config();
 app.get("/", (_, res) => res.send("running"));
 app.use("/api/auth", authRoutes);
 app.use("/api/subs", subRoutes);
-// app.use("/api/posts", postRoutes);
+app.use("/api/posts", postRoutes);
 // app.use("/api/votes", voteRoutes);
 // app.use("/api/users", userRoutes);
 

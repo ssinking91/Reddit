@@ -59,6 +59,7 @@ const vote = async (req: Request, res: Response) => {
         identifier,
         slug,
       },
+      // relations : join => 연관된 데이터 가지고 오기
       relations: ["comments", "comments.votes", "sub", "votes"],
     });
 
