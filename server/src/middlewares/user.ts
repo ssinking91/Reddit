@@ -9,6 +9,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     // 요청의 쿠키에 담겨있는 토큰을 가져오기
     const token = req.cookies.token;
     console.log("token", token);
+
     if (!token) return next();
 
     // verify 메소드와 jwt secret을 이용해서 토큰 Decode
@@ -20,6 +21,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     // 유저 정보가 없다면 throw error!
     if (!user) throw new Error("Unauthenticated");
 
+    // res.locals 활용하여 전역에서 사용 가능한 변수 만들기
     // 유저 정보를 res.local.user에 넣어주기
     res.locals.user = user;
 
