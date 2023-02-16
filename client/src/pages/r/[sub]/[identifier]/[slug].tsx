@@ -4,12 +4,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 //
 import useSWR from "swr";
-import axios from "axios";
 import dayjs from "dayjs";
 import classNames from "classnames";
 import { useAuthState } from "@/src/context/auth";
+import fetcher from "@/src/controller/fetcher";
 //
-import { Comment, Post } from "@/src/types";
+import { Comment, Post, METHOD } from "@/src/types";
 // import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 
 const PostPage = () => {
@@ -38,10 +38,16 @@ const PostPage = () => {
     }
 
     try {
-      await axios.post(`/posts/${post?.identifier}/${post?.slug}/comments`, {
-        body: newComment,
-      });
+      await fetcher(
+        METHOD.POST,
+        `/posts/${post?.identifier}/${post?.slug}/comments`,
+        {
+          body: newComment,
+        }
+      );
+
       commentMutate();
+
       setNewComment("");
     } catch (error) {
       console.log(error);
@@ -60,13 +66,15 @@ const PostPage = () => {
     }
 
     try {
-      await axios.post("/votes", {
+      await fetcher(METHOD.POST, "/votes", {
         identifier,
         slug,
         commentIdentifier: comment?.identifier,
         value,
       });
+
       postMutate();
+
       commentMutate();
     } catch (error) {
       console.log(error);
@@ -74,6 +82,7 @@ const PostPage = () => {
   };
 
   console.log("post.userVote", post?.userVote);
+
   return (
     <div className="flex max-w-5xl px-4 pt-5 mx-auto">
       <div className="w-full md:mr-3 md:w-8/12">
@@ -108,7 +117,7 @@ const PostPage = () => {
                 <div className="py-2 pr-2">
                   <div className="flex items-center">
                     <p className="text-xs test-gray-400">
-                      Posted by <i className="fas fa-abacus"></i>
+                      Posted by <i className="fas fa-abacus" />
                       <Link href={`/u/${post.username}`}>
                         <span className="mx-1 hover:underline">
                           /u/{post.username}

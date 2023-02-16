@@ -4,11 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 //
-import axios from "axios";
 import dayjs from "dayjs";
 // import { FaArrowDown, FaArrowUp } from 'react-icons/fa'
 import { useAuthState } from "../context/auth";
 import { Post } from "../types";
+import fetcher from "../controller/fetcher";
+import { METHOD } from "../types";
 
 interface PostCardProps {
   post: Post;
@@ -45,8 +46,10 @@ const PostCard = ({
     if (value === userVote) value = 0;
 
     try {
-      await axios.post("/votes", { identifier, slug, value });
+      await fetcher(METHOD.POST, "/votes", { identifier, slug, value });
+
       if (mutate) mutate();
+
       if (subMutate) subMutate();
     } catch (error) {
       console.log(error);
