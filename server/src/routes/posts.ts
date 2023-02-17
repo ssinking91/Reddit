@@ -78,19 +78,22 @@ const createPost = async (req: Request, res: Response) => {
 };
 
 const getPostComments = async (req: Request, res: Response) => {
-  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
   const { identifier, slug } = req.params;
+
   try {
     const post = await Post.findOneByOrFail({ identifier, slug });
+
     const comments = await Comment.find({
       where: { postId: post.id },
       order: { createdAt: "DESC" },
       // relations : join => 연관된 데이터 가지고 오기
       relations: ["votes"],
     });
+
     if (res.locals.user) {
       comments.forEach((c) => c.setUserVote(res.locals.user));
     }
+
     return res.json(comments);
   } catch (error) {
     console.log(error);
@@ -101,8 +104,10 @@ const getPostComments = async (req: Request, res: Response) => {
 const createPostComment = async (req: Request, res: Response) => {
   const { identifier, slug } = req.params;
   const body = req.body.body;
+
   try {
     const post = await Post.findOneByOrFail({ identifier, slug });
+
     const comment = new Comment();
     comment.body = body;
     comment.user = res.locals.user;

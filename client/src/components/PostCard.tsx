@@ -124,7 +124,7 @@ const PostCard = ({
         {body && <p className="my-1 text-sm">{body}</p>}
         <div className="flex">
           <Link href={url}>
-            <i className="mr-1 fas fa-comment-alt fa-xs"></i>
+            <i className="mr-1 fas fa-comment-alt fa-xs" />
             <span>{commentCount}</span>
           </Link>
         </div>

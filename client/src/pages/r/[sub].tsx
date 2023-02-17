@@ -25,16 +25,16 @@ const SubPage = () => {
   const subName = router.query.sub;
 
   const [ownSub, setOwnSub] = useState(false);
-  const [imageUrl, setImageUrl] = useState(null);
-  const [bannerUrl, setBannerUrl] = useState(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  //
   const {
     data: sub,
     error,
     mutate,
   } = useSWR(subName ? `/subs/${subName}` : null);
 
+  //
   useEffect(() => {
     if (!sub || !user) return;
     setOwnSub(authenticated && user.username === sub.username);
@@ -42,6 +42,7 @@ const SubPage = () => {
 
   console.log("sub", sub);
 
+  //
   const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
     console.log(event);
     if (event.target.files === null) return;
@@ -67,12 +68,14 @@ const SubPage = () => {
 
       if (res) {
         mutate({ ...sub, imageUrl: res.imageUrl, bannerUrl: res.bannerUrl });
+        // mutate();
       }
     } catch (error) {
       console.log(error);
     }
   };
 
+  //
   const openFileInput = (type: string) => {
     // 이미지 변경 권한 설정 : 본인인지 확인
     if (!ownSub) return;
@@ -85,6 +88,7 @@ const SubPage = () => {
     }
   };
 
+  //
   let renderPosts;
 
   if (!sub) {
@@ -117,7 +121,7 @@ const SubPage = () => {
                 <div
                   className="h-56 cursor-pointer"
                   style={{
-                    backgroundImage: `url(${bannerUrl || sub.bannerUrl})`,
+                    backgroundImage: `url(${sub.bannerUrl})`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
@@ -140,7 +144,7 @@ const SubPage = () => {
                 >
                   {sub.imageUrl && (
                     <Image
-                      src={imageUrl || sub.imageUrl}
+                      src={sub.imageUrl}
                       alt="커뮤니티 이미지"
                       //   width={70}
                       //   height={70}

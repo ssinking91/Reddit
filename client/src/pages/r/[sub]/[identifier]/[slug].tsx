@@ -21,16 +21,19 @@ const PostPage = () => {
 
   const [newComment, setNewComment] = useState("");
 
+  // post
   const {
     data: post,
     error,
     mutate: postMutate,
   } = useSWR<Post>(identifier && slug ? `/posts/${identifier}/${slug}` : null);
 
+  // comments
   const { data: comments, mutate: commentMutate } = useSWR<Comment[]>(
     identifier && slug ? `/posts/${identifier}/${slug}/comments` : null
   );
 
+  //
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (newComment.trim() === "") {
@@ -54,6 +57,7 @@ const PostPage = () => {
     }
   };
 
+  //
   const vote = async (value: number, comment?: Comment) => {
     if (!authenticated) router.push("/login");
 
@@ -223,12 +227,10 @@ const PostPage = () => {
                       </Link>
                       <span className="text-gray-600">
                         {`
-                                              ${comment.voteScore}
-                                              posts
-                                              ${dayjs(comment.createdAt).format(
-                                                "YYYY-MM-DD HH:mm"
-                                              )}
-                                            `}
+                          ${comment.voteScore}
+                          posts
+                          ${dayjs(comment.createdAt).format("YYYY-MM-DD HH:mm")}
+                        `}
                       </span>
                     </p>
                     <p>{comment.body}</p>
