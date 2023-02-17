@@ -23,8 +23,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <SWRConfig value={{ fetcher: (url) => fetcher(METHOD.GET, url) }}>
+      <Seo />
       <AuthProvider>
-        <Seo />
         {!isAuthRoute && <NavBar />}
         <div className={isAuthRoute ? "" : "pt-12"}>
           <Component {...pageProps} />

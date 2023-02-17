@@ -42,6 +42,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     async function loadUser() {
       try {
         const res = await axios.get("/auth/me");
+        console.log("/auth/me", res);
         dispatch("LOGIN", res.data);
         //
       } catch (error) {

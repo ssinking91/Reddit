@@ -21,35 +21,45 @@ const vote = async (req: Request, res: Response) => {
     let vote: Vote | undefined;
     let comment: Comment;
 
+    // 댓글 식별자가 있는 경우 댓글로 vote 찾기
     if (commentIdentifier) {
-      // 댓글 식별자가 있는 경우 댓글로 vote 찾기
       comment = await Comment.findOneByOrFail({
         identifier: commentIdentifier,
       });
+
       vote = await Vote.findOneBy({
         username: user.username,
         commentId: comment.id,
       });
-    } else {
-      // 포스트로 vote 찾기
+    }
+    // 포스트로 vote 찾기
+    else {
       vote = await Vote.findOneBy({ username: user.username, postId: post.id });
     }
 
+    // vote이 없고 value가 0인 경우 오류 반환
     if (!vote && value === 0) {
-      // vote이 없고 value가 0인 경우 오류 반환
       return res.status(404).json({ error: "Vote을 찾을 수 없습니다." });
-    } else if (!vote) {
+    }
+    // 처음 vote를 실행 했을때
+    else if (!vote) {
       vote = new Vote();
       vote.user = user;
       vote.value = value;
 
-      // 게시물에 속한 vote or 댓글에 속한 vote
+      // 댓글에 속한 vote
       if (comment) vote.comment = comment;
+      // 게시물에 속한 vote
       else vote.post = post;
+      //
       await vote.save();
-    } else if (value === 0) {
+    }
+    // vote가 존재하고 value가 0이면 db에서 투표를 제거
+    else if (value === 0) {
       vote.remove();
-    } else if (vote.value !== value) {
+    }
+    // vote의 value가 변경된 경우 투표를 업데이트
+    else if (vote.value !== value) {
       vote.value = value;
       await vote.save();
     }

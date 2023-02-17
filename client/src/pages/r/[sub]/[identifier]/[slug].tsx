@@ -24,12 +24,18 @@ const PostPage = () => {
   // post
   const {
     data: post,
-    error,
+    // error: postError,
     mutate: postMutate,
+    //
   } = useSWR<Post>(identifier && slug ? `/posts/${identifier}/${slug}` : null);
 
   // comments
-  const { data: comments, mutate: commentMutate } = useSWR<Comment[]>(
+  const {
+    data: comments,
+    // error: commentError,
+    mutate: commentMutate,
+    //
+  } = useSWR<Comment[]>(
     identifier && slug ? `/posts/${identifier}/${slug}/comments` : null
   );
 
@@ -49,6 +55,7 @@ const PostPage = () => {
         }
       );
 
+      postMutate();
       commentMutate();
 
       setNewComment("");
@@ -56,29 +63,29 @@ const PostPage = () => {
       console.log(error);
     }
   };
-
+  console.log("post", post);
+  console.log("comments", comments);
   //
   const vote = async (value: number, comment?: Comment) => {
     if (!authenticated) router.push("/login");
 
     // 이미 클릭 한 vote 버튼을 눌렀을 시에는 reset
-    if (
-      (!comment && value === post?.userVote) ||
-      (comment && comment.userVote === value)
-    ) {
-      value = 0;
-    }
+    // post vote
+    if (!comment) post?.userVote === value && (value = 0);
+    // comment vote
+    if (comment) comment.userVote === value && (value = 0);
 
     try {
       await fetcher(METHOD.POST, "/votes", {
+        // post vote
         identifier,
         slug,
+        // comment vote
         commentIdentifier: comment?.identifier,
         value,
       });
 
       postMutate();
-
       commentMutate();
     } catch (error) {
       console.log(error);
@@ -98,7 +105,7 @@ const PostPage = () => {
                 <div className="flex-shrink-0 w-10 py-2 text-center rounded-l">
                   {/* 좋아요 */}
                   <div
-                    className="flex justify-center w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
+                    className="flex justify-center items-center w-6 h-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
                     onClick={() => vote(1)}
                   >
                     {post.userVote === 1 ? (
@@ -110,7 +117,7 @@ const PostPage = () => {
                   <p className="text-xs font-bold">{post.voteScore}</p>
                   {/* 싫어요 */}
                   <div
-                    className="flex justify-center w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
+                    className="flex justify-center items-center w-6 h-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
                     onClick={() => vote(-1)}
                   >
                     {post.userVote === -1 ? (
@@ -140,7 +147,7 @@ const PostPage = () => {
                   <p className="my-3 text-sm">{post.body}</p>
                   <div className="flex">
                     <button>
-                      <i className="mr-1 fas fa-comment-alt fa-xs"></i>
+                      <i className="mr-1 fas fa-comment-alt fa-xs" />{" "}
                       <span className="font-bold">
                         {post.commentCount} Comments
                       </span>
@@ -166,7 +173,7 @@ const PostPage = () => {
                         className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-gray-600"
                         onChange={(e) => setNewComment(e.target.value)}
                         value={newComment}
-                      ></textarea>
+                      />
                       <div className="flex justify-end">
                         <button
                           className="px-3 py-1 text-white bg-gray-400 rounded"
@@ -199,18 +206,19 @@ const PostPage = () => {
                   <div className="flex-shrink-0 w-10 py-2 text-center rounded-l">
                     {/* 좋아요 */}
                     <div
-                      className="flex justify-center w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
+                      className="flex justify-center items-center w-6 h-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
                       onClick={() => vote(1, comment)}
                     >
-                      {/* {comment.userVote === 1 ?
-                                                <FaArrowUp className="text-red-500" />
-                                                : <FaArrowUp />
-                                            } */}
+                      {comment.userVote === 1 ? (
+                        <FaArrowUp className="text-red-500" />
+                      ) : (
+                        <FaArrowUp />
+                      )}
                     </div>
                     <p className="text-xs font-bold">{comment.voteScore}</p>
                     {/* 싫어요 */}
                     <div
-                      className="flex justify-center w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
+                      className="flex justify-center items-center w-6 h-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
                       onClick={() => vote(-1, comment)}
                     >
                       {comment.userVote === -1 ? (

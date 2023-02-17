@@ -35,7 +35,7 @@ const getPost = async (req: Request, res: Response) => {
     const post = await Post.findOneOrFail({
       where: { identifier, slug },
       // relations : join => 연관된 데이터 가지고 오기
-      relations: ["sub", "votes"],
+      relations: ["sub", "comments", "votes"],
     });
 
     if (res.locals.user) {
