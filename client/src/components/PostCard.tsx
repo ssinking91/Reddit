@@ -5,11 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 //
 import dayjs from "dayjs";
-// import { FaArrowDown, FaArrowUp } from 'react-icons/fa'
 import { useAuthState } from "../context/auth";
 import { Post } from "../types";
 import fetcher from "../controller/fetcher";
 import { METHOD } from "../types";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 interface PostCardProps {
   post: Post;
@@ -65,10 +65,11 @@ const PostCard = ({
           className="flex justify-center w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
           onClick={() => vote(1)}
         >
-          {/* {userVote === 1 ?
-                        <FaArrowUp className="text-red-500" />
-                        : <FaArrowUp />
-                    } */}
+          {userVote === 1 ? (
+            <FaArrowUp className="text-red-500" />
+          ) : (
+            <FaArrowUp />
+          )}
         </div>
         <p className="text-xs font-bold">{voteScore}</p>
         {/* 싫어요 */}
@@ -76,10 +77,11 @@ const PostCard = ({
           className="flex justify-center w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
           onClick={() => vote(-1)}
         >
-          {/* {userVote === -1 ?
-                        <FaArrowDown className="text-blue-500" />
-                        : <FaArrowDown />
-                    } */}
+          {userVote === -1 ? (
+            <FaArrowDown className="text-blue-500" />
+          ) : (
+            <FaArrowDown />
+          )}
         </div>
       </div>
       {/* 포스트 데이터 부분 */}

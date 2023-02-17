@@ -10,7 +10,7 @@ import { useAuthState } from "@/src/context/auth";
 import fetcher from "@/src/controller/fetcher";
 //
 import { Comment, Post, METHOD } from "@/src/types";
-// import { FaArrowUp, FaArrowDown } from "react-icons/fa";
+import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 
 const PostPage = () => {
   const router = useRouter();
@@ -101,10 +101,11 @@ const PostPage = () => {
                     className="flex justify-center w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
                     onClick={() => vote(1)}
                   >
-                    {/* {post.userVote === 1 ?
-                                            <FaArrowUp className="text-red-500" />
-                                            : <FaArrowUp />
-                                        } */}
+                    {post.userVote === 1 ? (
+                      <FaArrowUp className="text-red-500" />
+                    ) : (
+                      <FaArrowUp />
+                    )}
                   </div>
                   <p className="text-xs font-bold">{post.voteScore}</p>
                   {/* 싫어요 */}
@@ -112,10 +113,11 @@ const PostPage = () => {
                     className="flex justify-center w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
                     onClick={() => vote(-1)}
                   >
-                    {/* {post.userVote === -1 ?
-                                            <FaArrowDown className="text-blue-500" />
-                                            : <FaArrowDown />
-                                        } */}
+                    {post.userVote === -1 ? (
+                      <FaArrowDown className="text-blue-500" />
+                    ) : (
+                      <FaArrowDown />
+                    )}
                   </div>
                 </div>
                 <div className="py-2 pr-2">
@@ -211,10 +213,11 @@ const PostPage = () => {
                       className="flex justify-center w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
                       onClick={() => vote(-1, comment)}
                     >
-                      {/* {comment.userVote === -1 ?
-                                                <FaArrowDown className="text-red-500" />
-                                                : <FaArrowDown />
-                                            } */}
+                      {comment.userVote === -1 ? (
+                        <FaArrowDown className="text-red-500" />
+                      ) : (
+                        <FaArrowDown />
+                      )}
                     </div>
                   </div>
 
