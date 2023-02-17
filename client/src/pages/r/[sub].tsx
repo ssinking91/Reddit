@@ -14,9 +14,10 @@ import fetcher from "@/src/controller/fetcher";
 import SideBar from "@/src/components/SideBar";
 import { useAuthState } from "@/src/context/auth";
 //
-import { METHOD, Post } from "@/src/types";
+import { METHOD, Sub, Post } from "@/src/types";
 //
 import PostCard from "@/src/components/PostCard";
+import Spinner from "@/src/components/Spinner";
 
 const SubPage = () => {
   const { authenticated, user } = useAuthState();
@@ -31,7 +32,8 @@ const SubPage = () => {
   const {
     data: sub,
     error,
-    mutate,
+    isLoading,
+    mutate: subMutate,
   } = useSWR(subName ? `/subs/${subName}` : null);
 
   //
@@ -67,8 +69,8 @@ const SubPage = () => {
       console.log(res);
 
       if (res) {
-        mutate({ ...sub, imageUrl: res.imageUrl, bannerUrl: res.bannerUrl });
-        // mutate();
+        subMutate({ ...sub, imageUrl: res.imageUrl, bannerUrl: res.bannerUrl });
+        // subMutate();
       }
     } catch (error) {
       console.log(error);
@@ -89,21 +91,28 @@ const SubPage = () => {
   };
 
   //
-  let renderPosts;
+  const renderPosts = (sub: Sub, isLoading: boolean) => {
+    let renderPosts;
 
-  if (!sub) {
-    renderPosts = <p className="text-lg text-center">로딩중...</p>;
-  } else if (sub.posts.length === 0) {
-    renderPosts = (
-      <p className="text-lg text-center">아직 작성된 포스트가 없습니다.</p>
-    );
-  } else {
-    renderPosts = sub.posts.map((post: Post) => (
-      <PostCard key={post.identifier} post={post} subMutate={mutate} />
-    ));
-  }
+    if (isLoading) {
+      renderPosts = (
+        <p className="text-lg text-center">
+          <Spinner />
+        </p>
+      );
+    } else if (sub.posts.length === 0) {
+      renderPosts = (
+        <p className="text-lg text-center">아직 작성된 포스트가 없습니다.</p>
+      );
+    } else {
+      renderPosts = sub.posts.map((post: Post) => (
+        <PostCard key={post.identifier} post={post} subMutate={subMutate} />
+      ));
+    }
 
-  console.log("sub.imageUrl", sub?.imageUrl);
+    return renderPosts;
+  };
+
   return (
     <>
       {sub && (
@@ -168,7 +177,9 @@ const SubPage = () => {
           </div>
           {/* 포스트와 사이드바 */}
           <div className="flex max-w-5xl px-4 pt-5 mx-auto">
-            <div className="w-full md:mr-3 md:w-8/12">{renderPosts} </div>
+            <div className="w-full md:mr-3 md:w-8/12">
+              {renderPosts(sub, isLoading)}{" "}
+            </div>
             <SideBar sub={sub} />
           </div>
         </>

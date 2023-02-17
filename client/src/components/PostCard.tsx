@@ -43,7 +43,7 @@ const PostCard = ({
   const vote = async (value: number) => {
     if (!authenticated) router.push("/login");
 
-    if (value === userVote) value = 0;
+    if (userVote === value) value = 0;
 
     try {
       await fetcher(METHOD.POST, "/votes", { identifier, slug, value });
@@ -112,11 +112,9 @@ const PostCard = ({
             <Link href={`/u/${username}`}>
               <span className="mx-1 hover:underline">/u/{username}</span>
             </Link>
-            <Link href={url}>
-              <span className="mx-1 hover:underline">
-                {dayjs(createdAt).format("YYYY-MM-DD HH:mm")}
-              </span>
-            </Link>
+            <span className="mx-1">
+              {dayjs(createdAt).format("YYYY-MM-DD HH:mm")}
+            </span>
           </p>
         </div>
 
