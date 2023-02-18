@@ -34,8 +34,11 @@ const getUserData = async (req: Request, res: Response) => {
 
     let userData: any[] = [];
 
-    // posts.forEach((p) => userData.push({ type: "Post", ...p.toJSON() }));
-    // comments.forEach((c) => userData.push({ type: "Comment", ...c.toJSON() }));
+    // toJSON() 해주는 이유?
+    // spread operator를 이용해서 새로운 객체로 복사를 할 때 인스턴스 상태로 하면
+    // @Expose를 이용한 getter는 들어가지 않는다. 그래서 객체보 바꾼 후 복사해준다.
+    posts.forEach((p) => userData.push({ type: "Post", ...p.toJSON() }));
+    comments.forEach((c) => userData.push({ type: "Comment", ...c.toJSON() }));
 
     // 최신 정보가 먼저 오게 순서 정렬
     userData.sort((a, b) => {

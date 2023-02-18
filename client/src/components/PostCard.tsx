@@ -57,12 +57,15 @@ const PostCard = ({
   };
 
   return (
-    <div className="flex mb-4 bg-white rounded" id={identifier}>
+    <div
+      className="flex mb-4 bg-white rounded border-solid border border-slate-200"
+      id={identifier}
+    >
       {/* 좋아요 싫어요 기능 부분 */}
-      <div className="flex-shrink-0 w-10 py-2 text-center rounded-l">
+      <div className="flex-shrink-0 flex justify-center items-center flex-col w-10 py-2 rounded-l bg-gray-400">
         {/* 좋아요 */}
         <div
-          className="flex justify-center items-center w-6 h-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
+          className="flex justify-center items-center w-6 h-6 mx-auto text-white rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
           onClick={() => vote(1)}
         >
           {userVote === 1 ? (
@@ -74,7 +77,7 @@ const PostCard = ({
         <p className="text-xs font-bold">{voteScore}</p>
         {/* 싫어요 */}
         <div
-          className="flex justify-center items-center w-6 h-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
+          className="flex justify-center items-center w-6 h-6 mx-auto text-white rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
           onClick={() => vote(-1)}
         >
           {userVote === -1 ? (

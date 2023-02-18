@@ -10,6 +10,7 @@ import { METHOD } from "../types";
 //
 import NavBar from "../components/NavBar";
 import Seo from "../components/Seo";
+import Layout from "../components/Layout";
 //
 import "@/src/styles/globals.css";
 //
@@ -25,10 +26,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <SWRConfig value={{ fetcher: (url) => fetcher(METHOD.GET, url) }}>
       <Seo />
       <AuthProvider>
-        {!isAuthRoute && <NavBar />}
-        <div className={isAuthRoute ? "" : "pt-12"}>
+        <Layout isAuthRoute={isAuthRoute}>
           <Component {...pageProps} />
-        </div>
+        </Layout>
       </AuthProvider>
     </SWRConfig>
   );
