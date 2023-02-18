@@ -96,7 +96,7 @@ const PostCard = ({
                 <Image
                   src={sub!.imageUrl}
                   alt="sub"
-                  className="rounded-full cursor-pointer"
+                  className="rounded-full cursor-pointer h-3"
                   width={12}
                   height={12}
                 />

@@ -109,7 +109,7 @@ const Home: NextPage = () => {
                 <Link href={`/r/${sub.name}`}>
                   <Image
                     src={sub.imageUrl}
-                    className="rounded-full cursor-pointer"
+                    className="rounded-full cursor-pointer h-6"
                     alt="Sub"
                     width={24}
                     height={24}

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 //
-// import { FaSearch } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 //
 import { useAuthDispatch, useAuthState } from "../context/auth";
 //
@@ -43,7 +43,7 @@ const NavBar: React.FC = () => {
       </span>
       <div className="max-w-full px-4">
         <div className="relative flex items-center bg-gray-100 border rounded hover:border-gray-700 hover:bg-white">
-          {/* <FaSearch className="ml-2 text-gray-400" /> */}
+          <FaSearch className="ml-2 text-gray-400" />
           <input
             type="text"
             placeholder="Search Reddit"

@@ -95,8 +95,8 @@ const PostPage = () => {
   console.log("post.userVote", post?.userVote);
 
   return (
-    <div className="flex max-w-5xl px-4 pt-5 mx-auto">
-      <div className="w-full md:mr-3 md:w-8/12">
+    <div className="flex px-4 pt-5 justify-center">
+      <div className="w-full max-w-5xl md:w-8/12">
         <div className="bg-white rounded">
           {post && (
             <>
@@ -201,12 +201,15 @@ const PostPage = () => {
               </div>
               {/* 댓글 리스트 부분 */}
               {comments?.map((comment) => (
-                <div className="flex" key={comment.identifier}>
+                <div
+                  className="flex bg-white rounded border-solid border border-slate-200"
+                  key={comment.identifier}
+                >
                   {/* 좋아요 싫어요 기능 부분 */}
-                  <div className="flex-shrink-0 w-10 py-2 text-center rounded-l">
+                  <div className="flex-shrink-0 w-10 py-2 text-center rounded-l  bg-gray-400">
                     {/* 좋아요 */}
                     <div
-                      className="flex justify-center items-center w-6 h-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
+                      className="flex justify-center items-center w-6 h-6 mx-auto text-white rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
                       onClick={() => vote(1, comment)}
                     >
                       {comment.userVote === 1 ? (
@@ -218,7 +221,7 @@ const PostPage = () => {
                     <p className="text-xs font-bold">{comment.voteScore}</p>
                     {/* 싫어요 */}
                     <div
-                      className="flex justify-center items-center w-6 h-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
+                      className="flex justify-center items-center w-6 h-6 mx-auto text-white rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
                       onClick={() => vote(-1, comment)}
                     >
                       {comment.userVote === -1 ? (

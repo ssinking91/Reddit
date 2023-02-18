@@ -157,8 +157,8 @@ const SubPage = () => {
                       alt="커뮤니티 이미지"
                       //   width={70}
                       //   height={70}
-                      fill={true}
                       className="rounded-full cursor-pointer"
+                      fill={true}
                       onClick={() => openFileInput("image")}
                       draggable="false"
                     />
