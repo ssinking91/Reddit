@@ -31,7 +31,7 @@ const SubPage = () => {
   //
   const {
     data: sub,
-    error,
+    // error,
     isLoading,
     mutate: subMutate,
   } = useSWR(subName ? `/subs/${subName}` : null);

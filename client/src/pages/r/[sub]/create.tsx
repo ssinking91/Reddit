@@ -43,7 +43,7 @@ const PostCreate = () => {
       if (watchFields[0].trim() === "" || !subName) return;
 
       try {
-        const { data: post } = await fetcher(METHOD.POST, "/posts", {
+        const post = await fetcher(METHOD.POST, "/posts", {
           title: watchFields[0].trim(),
           body: watchFields[1],
           sub: subName,
