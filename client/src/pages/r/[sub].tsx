@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useRef,
   useState,
+  useCallback,
 } from "react";
 //
 import Image from "next/image";
@@ -11,7 +12,7 @@ import { useRouter } from "next/router";
 //
 import useSWR from "swr";
 import fetcher from "@/src/controller/fetcher";
-import SideBar from "@/src/components/SideBar";
+import SubSideBar from "@/src/components/SubSideBar";
 import { useAuthState } from "@/src/context/auth";
 //
 import { METHOD, Sub, Post } from "@/src/types";
@@ -40,78 +41,91 @@ const SubPage = () => {
   useEffect(() => {
     if (!sub || !user) return;
     setOwnSub(authenticated && user.username === sub.username);
-  }, [sub]);
+  }, [authenticated, sub, user]);
 
-  console.log("sub", sub);
+  // console.log("sub", sub);
 
   //
-  const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event);
-    if (event.target.files === null) return;
+  const uploadImage = useCallback(
+    async (event: ChangeEvent<HTMLInputElement>) => {
+      // console.log(event);
+      if (event.target.files === null) return;
 
-    const file = event.target.files[0];
-    console.log("file", file);
+      const file = event.target.files[0];
+      console.log("file", file);
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("type", fileInputRef.current!.name);
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("type", fileInputRef.current!.name);
 
-    try {
-      const res = await fetcher(
-        METHOD.POST,
-        `/subs/${sub.name}/upload`,
-        formData,
-        {
-          headers: { "Context-Type": "multipart/form-data" },
+      try {
+        const res = await fetcher(
+          METHOD.POST,
+          `/subs/${sub.name}/upload`,
+          formData,
+          {
+            headers: { "Context-Type": "multipart/form-data" },
+          }
+        );
+
+        console.log(res);
+
+        if (res) {
+          subMutate({
+            ...sub,
+            imageUrl: res.imageUrl,
+            bannerUrl: res.bannerUrl,
+          });
+          // subMutate();
         }
-      );
-
-      console.log(res);
-
-      if (res) {
-        subMutate({ ...sub, imageUrl: res.imageUrl, bannerUrl: res.bannerUrl });
-        // subMutate();
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [sub, subMutate]
+  );
 
   //
-  const openFileInput = (type: string) => {
-    // 이미지 변경 권한 설정 : 본인인지 확인
-    if (!ownSub) return;
+  const openFileInput = useCallback(
+    (type: string) => {
+      // 이미지 변경 권한 설정 : 본인인지 확인
+      if (!ownSub) return;
 
-    const fileInput = fileInputRef.current;
-    if (fileInput) {
-      // banner, image
-      fileInput.name = type;
-      fileInput.click();
-    }
-  };
+      const fileInput = fileInputRef.current;
+      if (fileInput) {
+        // banner, image
+        fileInput.name = type;
+        fileInput.click();
+      }
+    },
+    [ownSub]
+  );
 
   //
-  const renderPosts = (sub: Sub, isLoading: boolean) => {
-    let renderPosts;
+  const renderPosts = useCallback(
+    (sub: Sub, isLoading: boolean) => {
+      let renderPosts;
 
-    if (isLoading) {
-      renderPosts = (
-        <p className="text-lg text-center">
-          <Spinner />
-        </p>
-      );
-    } else if (sub.posts.length === 0) {
-      renderPosts = (
-        <p className="text-lg text-center">아직 작성된 포스트가 없습니다.</p>
-      );
-    } else {
-      renderPosts = sub.posts.map((post: Post) => (
-        <PostCard key={post.identifier} post={post} subMutate={subMutate} />
-      ));
-    }
+      if (isLoading) {
+        renderPosts = (
+          <div className="w-full flex items-center justify-center">
+            <Spinner />
+          </div>
+        );
+      } else if (sub.posts.length === 0) {
+        renderPosts = (
+          <p className="text-lg text-center">아직 작성된 포스트가 없습니다.</p>
+        );
+      } else {
+        renderPosts = sub.posts.map((post: Post) => (
+          <PostCard key={post.identifier} post={post} subMutate={subMutate} />
+        ));
+      }
 
-    return renderPosts;
-  };
+      return renderPosts;
+    },
+    [subMutate]
+  );
 
   return (
     <>
@@ -180,7 +194,7 @@ const SubPage = () => {
             <div className="w-full md:mr-3 md:w-8/12">
               {renderPosts(sub, isLoading)}{" "}
             </div>
-            <SideBar sub={sub} />
+            <SubSideBar sub={sub} />
           </div>
         </>
       )}

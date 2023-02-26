@@ -1,17 +1,17 @@
-import Link from "next/link";
 import React from "react";
+//
+import Link from "next/link";
+//
 import { useAuthState } from "../context/auth";
+import formatDate from "../controller/formatDate";
 import { Sub } from "../types";
-import dayjs from "dayjs";
 
 type Props = {
   sub: Sub;
 };
 
-const SideBar = ({ sub }: Props) => {
+const SubSideBar = ({ sub }: Props) => {
   const { authenticated } = useAuthState();
-
-  const formatDate = dayjs(sub?.createdAt).format("MM.DD.YYYY");
 
   return (
     <div className="hidden w-4/12 ml-3 md:block">
@@ -23,11 +23,10 @@ const SideBar = ({ sub }: Props) => {
           <p className="mb-3 text-base">{sub?.description}</p>
           <div className="flex mb-3 text-sm font-medium">
             <div className="w-1/2">
-              <p>100</p>
               <p>멤버</p>
             </div>
           </div>
-          <p className="my-3">{formatDate}</p>
+          <p className="my-3">{formatDate(sub?.createdAt, "MM.DD.YYYY")}</p>
 
           {authenticated && (
             <div className="mx-0 my-2">
@@ -44,4 +43,4 @@ const SideBar = ({ sub }: Props) => {
   );
 };
 
-export default SideBar;
+export default SubSideBar;

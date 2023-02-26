@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useCallback, useState } from "react";
 //
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -41,7 +41,7 @@ const Login = () => {
 
   const watchFields = watch(["username", "password"]);
 
-  const onSubmit = async () =>
+  const onSubmit = useCallback(async () =>
     // event: FormEvent
     //
     {
@@ -67,7 +67,7 @@ const Login = () => {
         console.log("error", error);
         setResErrors(error.response?.data || {});
       }
-    };
+    }, [dispatch, router, watchFields]);
 
   return (
     <div className="bg-white">

@@ -8,7 +8,6 @@ import { AuthProvider } from "../context/auth";
 import fetcher from "../controller/fetcher";
 import { METHOD } from "../types";
 //
-import NavBar from "../components/NavBar";
 import Seo from "../components/Seo";
 import Layout from "../components/Layout";
 //

@@ -1,15 +1,14 @@
 import React from "react";
 //
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 //
-import dayjs from "dayjs";
 import useSWR from "swr";
 //
 import PostCard from "@/src/components/PostCard";
+import UserSideBar from "@/src/components/UserSideBar";
 import { Comment, Post } from "../../types";
-
+//
 const UserPage = () => {
   const router = useRouter();
   const username = router.query.username;
@@ -17,10 +16,9 @@ const UserPage = () => {
   const { data, error, mutate } = useSWR(
     username ? `/users/${username}` : null
   );
-  console.log(data);
 
   if (!data) return null;
-
+  console.log(data);
   return (
     <div className="flex max-w-5xl px-4 pt-5 mx-auto">
       {/* 유저 포스트 댓글 리스트 */}
@@ -70,21 +68,7 @@ const UserPage = () => {
         })}
       </div>
       {/* 유저 정보 */}
-      <div className="hidden w-4/12 ml-3 md:block">
-        <div className="flex items-center p-3 bg-gray-400 rounded-t">
-          <Image
-            src="https://www.gravatar.com/avatar/0000?d=mp&f=y"
-            alt="user profile"
-            className="mx-auto border border-white rounded-full"
-            width={40}
-            height={40}
-          />
-          <p className="pl-2 text-md">{data?.user.username}</p>
-        </div>
-        <div className="p-2 bg-white rounded-b">
-          <p>{dayjs(data?.user.createdAt).format("YYYY.MM.DD")} 가입</p>
-        </div>
-      </div>
+      <UserSideBar user={data.user} />
     </div>
   );
 };

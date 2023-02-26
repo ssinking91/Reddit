@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useCallback } from "react";
 //
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
@@ -35,7 +35,7 @@ const SubCreate = () => {
 
   const watchFields = watch(["name", "title", "description"]);
 
-  const onSubmit = async () =>
+  const onSubmit = useCallback(async () =>
     // event: FormEvent
     //
     {
@@ -56,7 +56,8 @@ const SubCreate = () => {
         console.log("error", error);
         setResErrors(error.response?.data || {});
       }
-    };
+    }, [router, watchFields]);
+
   console.log(resErrors);
   return (
     <div className="flex flex-col justify-center pt-16">

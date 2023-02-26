@@ -1,11 +1,11 @@
-import React, { FormEvent } from "react";
+import React, { FormEvent, useCallback } from "react";
 //
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 //
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { METHOD, Post } from "@/src/types";
+import { METHOD } from "@/src/types";
 import fetcher from "@/src/controller/fetcher";
 
 interface FormInputs {
@@ -34,7 +34,7 @@ const PostCreate = () => {
 
   const watchFields = watch(["title", "content"]);
 
-  const onSubmit = async () =>
+  const onSubmit = useCallback(async () =>
     // event: FormEvent
     //
     {
@@ -55,7 +55,7 @@ const PostCreate = () => {
       } catch (error) {
         console.log(error);
       }
-    };
+    }, [router, subName, watchFields]);
 
   return (
     <div className="flex flex-col justify-center pt-16">

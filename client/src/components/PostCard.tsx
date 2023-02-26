@@ -1,14 +1,13 @@
-import React from "react";
+import React, { useCallback } from "react";
 //
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 //
-import dayjs from "dayjs";
 import { useAuthState } from "../context/auth";
-import { Post } from "../types";
 import fetcher from "../controller/fetcher";
-import { METHOD } from "../types";
+import formatDate from "../controller/formatDate";
+import { Post, METHOD } from "../types";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 interface PostCardProps {
@@ -40,21 +39,25 @@ const PostCard = ({
 
   const { authenticated } = useAuthState();
 
-  const vote = async (value: number) => {
-    if (!authenticated) router.push("/login");
+  const vote = useCallback(
+    async (value: number) => {
+      if (!authenticated) router.push("/login");
 
-    if (userVote === value) value = 0;
+      // 이미 클릭 한 vote 버튼을 눌렀을 시에는 reset
+      if (userVote === value) value = 0;
 
-    try {
-      await fetcher(METHOD.POST, "/votes", { identifier, slug, value });
+      try {
+        await fetcher(METHOD.POST, "/votes", { identifier, slug, value });
 
-      if (mutate) mutate();
+        if (mutate) mutate();
 
-      if (subMutate) subMutate();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+        if (subMutate) subMutate();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [authenticated, identifier, mutate, router, slug, subMutate, userVote]
+  );
 
   return (
     <div
@@ -116,7 +119,7 @@ const PostCard = ({
               <span className="mx-1 hover:underline">/u/{username}</span>
             </Link>
             <span className="mx-1">
-              {dayjs(createdAt).format("YYYY-MM-DD HH:mm")}
+              {formatDate(createdAt, "YYYY-MM-DD HH:mm")}
             </span>
           </p>
         </div>

@@ -1,15 +1,14 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useCallback } from "react";
 //
 import Link from "next/link";
 import { useRouter } from "next/router";
 //
 import useSWR from "swr";
-import dayjs from "dayjs";
-import classNames from "classnames";
 import { useAuthState } from "@/src/context/auth";
 import fetcher from "@/src/controller/fetcher";
 //
 import { Comment, Post, METHOD } from "@/src/types";
+import formatDate from "@/src/controller/formatDate";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 
 const PostPage = () => {
@@ -40,59 +39,70 @@ const PostPage = () => {
   );
 
   //
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (newComment.trim() === "") {
-      return;
-    }
+  const handleSubmit = useCallback(
+    async (e: FormEvent) => {
+      e.preventDefault();
+      if (newComment.trim() === "") {
+        return;
+      }
 
-    try {
-      await fetcher(
-        METHOD.POST,
-        `/posts/${post?.identifier}/${post?.slug}/comments`,
-        {
-          body: newComment,
-        }
-      );
+      try {
+        await fetcher(
+          METHOD.POST,
+          `/posts/${post?.identifier}/${post?.slug}/comments`,
+          {
+            body: newComment,
+          }
+        );
 
-      postMutate();
-      commentMutate();
+        postMutate();
+        commentMutate();
 
-      setNewComment("");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  console.log("post", post);
-  console.log("comments", comments);
+        setNewComment("");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [commentMutate, newComment, post?.identifier, post?.slug, postMutate]
+  );
   //
-  const vote = async (value: number, comment?: Comment) => {
-    if (!authenticated) router.push("/login");
+  const vote = useCallback(
+    async (value: number, comment?: Comment) => {
+      if (!authenticated) router.push("/login");
 
-    // 이미 클릭 한 vote 버튼을 눌렀을 시에는 reset
-    // post vote
-    if (!comment) post?.userVote === value && (value = 0);
-    // comment vote
-    if (comment) comment.userVote === value && (value = 0);
+      // 이미 클릭 한 vote 버튼을 눌렀을 시에는 reset
+      // post vote
+      if (!comment) post?.userVote === value && (value = 0);
+      // comment vote
+      if (comment) comment.userVote === value && (value = 0);
 
-    try {
-      await fetcher(METHOD.POST, "/votes", {
-        // post vote
-        identifier,
-        slug,
-        // comment vote
-        commentIdentifier: comment?.identifier,
-        value,
-      });
+      try {
+        await fetcher(METHOD.POST, "/votes", {
+          // post vote
+          identifier,
+          slug,
+          // comment vote
+          commentIdentifier: comment?.identifier,
+          //
+          value,
+        });
 
-      postMutate();
-      commentMutate();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  console.log("post.userVote", post?.userVote);
+        postMutate();
+        commentMutate();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [
+      authenticated,
+      commentMutate,
+      identifier,
+      post?.userVote,
+      postMutate,
+      router,
+      slug,
+    ]
+  );
 
   return (
     <div className="flex px-4 pt-5 justify-center">
@@ -138,7 +148,7 @@ const PostPage = () => {
                       </Link>
                       <Link href={post.url}>
                         <span className="mx-1 hover:underline">
-                          {dayjs(post.createdAt).format("YYYY-MM-DD HH:mm")}
+                          {formatDate(post.createdAt, "YYYY-MM-DD HH:mm")}
                         </span>
                       </Link>
                     </p>
@@ -243,7 +253,7 @@ const PostPage = () => {
                         {`
                           ${comment.voteScore}
                           posts
-                          ${dayjs(comment.createdAt).format("YYYY-MM-DD HH:mm")}
+                          ${formatDate(comment.createdAt, "YYYY-MM-DD HH:mm")}
                         `}
                       </span>
                     </p>

@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+//
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -15,7 +17,7 @@ const NavBar: React.FC = () => {
   const dispatch = useAuthDispatch();
   const { loading, authenticated } = useAuthState();
 
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     try {
       const { success } = await fetcher(METHOD.POST, "/auth/logout");
 
@@ -27,7 +29,7 @@ const NavBar: React.FC = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [dispatch, router]);
 
   return (
     <div className="fixed inset-x-0 top-0 z-10 flex items-center justify-between px-5 bg-white h-13">
