@@ -20,14 +20,18 @@ export default function Seo() {
       "/r/[sub]": "Sub",
       "/r/[sub]/[identifier]/[slug]": "Post",
       "/r/[sub]/create": "PostCreate",
+      "/u/[username]": "User",
     };
   }, []);
 
-  const path = useCallback((name: string) => {
-    return pathMap[name] || "where";
-  }, []);
+  const path = useCallback(
+    (name: string) => {
+      return pathMap[name] || "where";
+    },
+    [pathMap]
+  );
 
-  console.log("pathname", router.pathname);
+  // console.log("pathname", router.pathname);
 
   return (
     <Head>
