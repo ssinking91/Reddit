@@ -5,8 +5,10 @@ import { useRouter } from "next/router";
 //
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { METHOD } from "@/src/types";
-import fetcher from "@/src/controller/fetcher";
+//
+import fetcher from "@controller/fetcher";
+//
+import { METHOD } from "@types";
 
 interface FormInputs {
   title: string;

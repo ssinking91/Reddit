@@ -4,11 +4,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 //
 import useSWR from "swr";
-import { useAuthState } from "@/src/context/auth";
-import fetcher from "@/src/controller/fetcher";
+import { useAuthState } from "@context/auth";
+import fetcher from "@controller/fetcher";
+import formatDate from "@controller/formatDate";
 //
-import { Comment, Post, METHOD } from "@/src/types";
-import formatDate from "@/src/controller/formatDate";
+import { Comment, Post, METHOD } from "@types";
+//
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 
 const PostPage = () => {
