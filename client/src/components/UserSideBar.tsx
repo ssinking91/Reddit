@@ -2,8 +2,7 @@ import React from "react";
 //
 import Image from "next/image";
 //
-import dayjs from "dayjs";
-import formatDate from "../controller/formatDate";
+import formatDate from "@controller/formatDate";
 
 interface User {
   username: string;

@@ -1,6 +1,6 @@
 import React from "react";
-import cls from "classnames";
 import { UseFormRegisterReturn } from "react-hook-form";
+import cls from "classnames";
 
 interface InputGroupProps {
   className?: string;

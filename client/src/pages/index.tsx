@@ -4,11 +4,11 @@ import type { NextPage } from "next";
 //
 import useSWRInfinite from "swr/infinite";
 //
-import { Post } from "../types";
+import { Post } from "@types";
 //
-import PostCard from "../components/PostCard";
-import MainSideBar from "../components/MainSideBar";
-import Spinner from "../components/Spinner";
+import PostCard from "@components/PostCard";
+import MainSideBar from "@components/MainSideBar";
+import Spinner from "@components/Spinner";
 //
 const Home: NextPage = () => {
   // 각 페이지의 SWR 키를 얻기 위한 함수,

@@ -4,12 +4,13 @@ import { useRouter } from "next/router";
 import Axios from "axios";
 import { SWRConfig } from "swr";
 //
-import { AuthProvider } from "../context/auth";
-import fetcher from "../controller/fetcher";
-import { METHOD } from "../types";
+import { AuthProvider } from "@context/auth";
+import fetcher from "@controller/fetcher";
 //
-import Seo from "../components/Seo";
-import Layout from "../components/Layout";
+import { METHOD } from "@types";
+//
+import Seo from "@components/Seo";
+import Layout from "@components/Layout";
 //
 import "@/src/styles/globals.css";
 //

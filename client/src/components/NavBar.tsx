@@ -6,10 +6,10 @@ import { useRouter } from "next/router";
 //
 import { FaSearch } from "react-icons/fa";
 //
-import { useAuthDispatch, useAuthState } from "../context/auth";
+import { useAuthDispatch, useAuthState } from "@context/auth";
 //
-import fetcher from "../controller/fetcher";
-import { METHOD } from "../types";
+import fetcher from "@controller/fetcher";
+import { METHOD } from "@types";
 
 const NavBar: React.FC = () => {
   const router = useRouter();

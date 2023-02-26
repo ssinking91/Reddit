@@ -1,4 +1,4 @@
-import { authState, authAction } from "../context/auth";
+import { authState, authAction } from "@context/auth";
 
 // Keyof operator
 export type authActionType = keyof typeof authReducerMap;

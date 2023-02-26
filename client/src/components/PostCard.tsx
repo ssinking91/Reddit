@@ -4,10 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 //
-import { useAuthState } from "../context/auth";
-import fetcher from "../controller/fetcher";
-import formatDate from "../controller/formatDate";
-import { Post, METHOD } from "../types";
+import { Post, METHOD } from "@types";
+//
+import { useAuthState } from "@context/auth";
+import fetcher from "@controller/fetcher";
+import formatDate from "@controller/formatDate";
+//
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 interface PostCardProps {

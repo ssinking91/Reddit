@@ -1,5 +1,5 @@
 import axios from "axios";
-import { METHOD } from "../types";
+import { METHOD } from "@types";
 
 const fetcher = async (
   method: METHOD,

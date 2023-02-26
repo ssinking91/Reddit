@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 //
-import NavBar from "../components/NavBar";
+import NavBar from "./NavBar";
 //
 interface Layout {
   children: ReactNode;

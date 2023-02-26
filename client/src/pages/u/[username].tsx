@@ -5,9 +5,9 @@ import { useRouter } from "next/router";
 //
 import useSWR from "swr";
 //
-import PostCard from "@/src/components/PostCard";
-import UserSideBar from "@/src/components/UserSideBar";
-import { Comment, Post } from "../../types";
+import PostCard from "@components/PostCard";
+import UserSideBar from "@components/UserSideBar";
+import { Comment, Post } from "@types";
 //
 const UserPage = () => {
   const router = useRouter();

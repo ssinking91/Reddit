@@ -2,9 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 //
 import useSWR from "swr";
-import { useAuthState } from "../context/auth";
 //
-import { Sub } from "../types";
+import { useAuthState } from "@context/auth";
+//
+import { Sub } from "@types";
 //
 const MainSideBar = () => {
   const { authenticated } = useAuthState();

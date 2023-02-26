@@ -4,12 +4,14 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 //
 import { useForm } from "react-hook-form";
-import { useAuthState } from "../context/auth";
 //
-import InputGroup from "../components/InputGroup";
+import { METHOD } from "@types";
 //
-import fetcher from "../controller/fetcher";
-import { METHOD } from "../types";
+import { useAuthState } from "@context/auth";
+import fetcher from "@controller/fetcher";
+//
+import InputGroup from "@components/InputGroup";
+
 interface FormInputs {
   email: string;
   username: string;

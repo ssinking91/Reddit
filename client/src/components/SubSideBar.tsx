@@ -2,9 +2,9 @@ import React from "react";
 //
 import Link from "next/link";
 //
-import { useAuthState } from "../context/auth";
-import formatDate from "../controller/formatDate";
-import { Sub } from "../types";
+import { useAuthState } from "@context/auth";
+import formatDate from "@controller/formatDate";
+import { Sub } from "@types";
 
 type Props = {
   sub: Sub;

@@ -1,11 +1,15 @@
-import axios from "axios";
 import { createContext, useContext, useEffect, useReducer } from "react";
+//
+import axios from "axios";
+//
 import {
   authReducer,
   authInitialState,
   authActionType,
-} from "../reducer/authReducer";
-import { User } from "../types";
+} from "@reducer/authReducer";
+
+//
+import { User } from "@types";
 
 // type
 export interface authState {
