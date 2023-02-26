@@ -2,7 +2,7 @@ import { useCallback } from "react";
 //
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 //
 import { FaSearch } from "react-icons/fa";
 //
@@ -12,7 +12,7 @@ import fetcher from "@controller/fetcher";
 import { METHOD } from "@types";
 
 const NavBar: React.FC = () => {
-  const router = useRouter();
+  // const router = useRouter();
 
   const dispatch = useAuthDispatch();
   const { loading, authenticated } = useAuthState();
@@ -24,12 +24,12 @@ const NavBar: React.FC = () => {
       if (success) {
         dispatch("LOGOUT");
         // window.location.reload();
-        router.reload();
+        // router.reload();
       }
     } catch (error) {
       console.log(error);
     }
-  }, [dispatch, router]);
+  }, [dispatch]);
 
   return (
     <div className="fixed inset-x-0 top-0 z-10 flex items-center justify-between px-5 bg-white h-13">

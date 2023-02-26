@@ -7,7 +7,6 @@ import {
   authInitialState,
   authActionType,
 } from "@reducer/authReducer";
-
 //
 import { User } from "@types";
 
@@ -32,6 +31,7 @@ const StateContext = createContext<authState>({
 
 const DispatchContext = createContext<any>(null);
 
+// Provider
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, defaultDispatch] = useReducer(authReducer, authInitialState);
 
