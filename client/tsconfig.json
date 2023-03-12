@@ -22,6 +22,7 @@
       "@pages/*": ["src/pages/*"],
       "@reducer/*": ["src/reducer/*"],
       "@styles/*": ["src/styles/*"],
+      "@util/*": ["src/util/*"],
       "@types": ["src/types"]
     }
   },

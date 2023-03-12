@@ -43,9 +43,7 @@ const PostPage = () => {
   const handleSubmit = useCallback(
     async (e: FormEvent) => {
       e.preventDefault();
-      if (newComment.trim() === "") {
-        return;
-      }
+      if (newComment.trim() === "") return;
 
       try {
         await fetcher(
